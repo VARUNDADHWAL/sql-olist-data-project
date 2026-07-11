@@ -82,14 +82,14 @@ CREATE TABLE IF NOT EXISTS silver.orders(
 -- products table
 CREATE TABLE IF NOT EXISTS silver.products(
     product_id Text PRIMARY KEY,
-    product_category_name varchar(50) NOT NULL ,
-    product_name_length int NOT NULL ,
-    product_description_length int NOT NULL ,
-    product_photos_qty int NOT NULL ,
-    product_weight_g int NOT NULL ,
-    product_length_cm int NOT NULL ,
-    product_height_cm int NOT NULL ,
-    product_width_cm int NOT NULL ,
+    product_category_name varchar(50) ,
+    product_name_length int  ,
+    product_description_length int ,
+    product_photos_qty int ,
+    product_weight_g int  ,
+    product_length_cm int  ,
+    product_height_cm int ,
+    product_width_cm int  ,
     silver_insert_time Timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
