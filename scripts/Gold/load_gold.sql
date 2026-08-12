@@ -70,24 +70,37 @@ BEGIN
 		RAISE NOTICE '>> Truncating Table: gold.dim_customer';
 		TRUNCATE TABLE gold.dim_customer RESTART IDENTITY CASCADE;
 		RAISE NOTICE '>> Loading Data Into: gold.dim_customer';
-		INSERT INTO gold.dim_customer(
-			customer_id,
-			customer_unique_id,
-			customer_city,
-			customer_state,
-			customer_lat,
-			customer_lng
-		)
-		SELECT
-			c.customer_id,
-			c.customer_unique_id,
-			c.customer_city,
-			c.customer_state,
-			g.geolocation_lat,
-			g.geolocation_lng
-		FROM silver.customers c
-		LEFT JOIN silver.geolocation g
-			ON c.customer_zip_code_prefix = g.geolocation_zip_code_prefix;
+		WITH customer_order_counts AS (
+    SELECT
+        customer_unique_id,
+        COUNT(DISTINCT order_id) AS order_count
+    FROM silver.customers c
+    JOIN silver.orders o ON c.customer_id = o.customer_id
+    WHERE o.order_status = 'delivered'
+    GROUP BY customer_unique_id
+)
+INSERT INTO gold.dim_customer(
+    customer_id,
+    customer_unique_id,
+    customer_city,
+    customer_state,
+    customer_lat,
+    customer_lng,
+    customer_type
+)
+SELECT
+    c.customer_id,
+    c.customer_unique_id,
+    c.customer_city,
+    c.customer_state,
+    g.geolocation_lat,
+    g.geolocation_lng,
+    CASE WHEN coc.order_count > 1 THEN 'Repeat' ELSE 'One-Time' END AS customer_type
+FROM silver.customers c
+LEFT JOIN silver.geolocation g
+    ON c.customer_zip_code_prefix = g.geolocation_zip_code_prefix
+LEFT JOIN customer_order_counts coc
+    ON c.customer_unique_id = coc.customer_unique_id;
 		end_time := clock_timestamp();
 		RAISE NOTICE '>> Load Duration: % seconds', EXTRACT(EPOCH FROM (end_time - start_time));
 		RAISE NOTICE ' ';
@@ -274,4 +287,4 @@ END;
 $$;
 
 -- To run:
--- CALL gold.load_gold();
+CALL gold.load_gold();
