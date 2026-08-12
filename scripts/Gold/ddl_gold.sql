@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS gold.dim_customer(
     customer_city TEXT,
     customer_state CHAR(2),
     customer_lat DOUBLE PRECISION,
-    customer_lng DOUBLE PRECISION
+    customer_lng DOUBLE PRECISION,
+	customer_type TEXT
 );
 
 -- dim_seller
