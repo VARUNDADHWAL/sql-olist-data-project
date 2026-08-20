@@ -159,7 +159,7 @@ sql-olist-data-project/
 - How does delivery performance vary by state, and does it affect review scores?
 - Which payment methods are most common, and how do they relate to order value?
 
-*(Full list in [`docs/business_questions.md`](docs/business_questions.md))*
+*(Full list in [`docs/business_questions.md`](docs/Analysis_docs/business_questions.md))*
 
 ---
 
