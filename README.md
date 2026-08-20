@@ -96,7 +96,7 @@ Seller concentration by state, top sellers by revenue, and a volume-vs-rating sc
 ### Delivery & Logistics
 Delivery time by state, same-state vs. cross-state delivery comparison, and the relationship between delivery speed and review score — one of the strongest findings in the whole analysis.
 
-![Delivery & Logistics](docs/dashboard/Delivery and logistics)
+![Delivery & Logistics](docs/dashboard/Delivery&logistics)
 
 *Note: this dashboard was built as a first hands-on Power BI project, prioritizing accurate, verified data over advanced visual polish (custom navigation, full theming). A more refined version is planned as a follow-up project after deeper Power BI study.*
 
