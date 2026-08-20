@@ -76,27 +76,27 @@ A 5-page interactive dashboard built on top of the Gold layer, covering Sales, C
 ### Sales Overview
 Revenue trend across 2016–2018 (with year-over-year seasonality comparison), day-of-week and weekday/weekend ordering patterns, and top revenue-generating categories.
 
-![Sales Overview](docs/dashboard/Sales.png)
+![Sales Overview](docs/dashboard/Sales)
 
 ### Customers
 Customer geography (mapped via lat/lng), the one-time vs. repeat customer revenue split, and top cities/states by customer volume and revenue per customer.
 
-![Customers](docs/dashboard/Customers.png)
+![Customers](docs/dashboard/Customers)
 
 ### Products
 Top categories by revenue and quantity sold, price range analysis, and a revenue-vs-review-score scatter plot that surfaces categories with high revenue but low customer satisfaction.
 
-![Products](docs/dashboard/Products.png)
+![Products](docs/dashboard/Products)
 
 ### Sellers
 Seller concentration by state, top sellers by revenue, and a volume-vs-rating scatter plot identifying high-volume sellers with below-average review scores.
 
-![Sellers](docs/dashboard/Sellers.png)
+![Sellers](docs/dashboard/Sellers)
 
 ### Delivery & Logistics
 Delivery time by state, same-state vs. cross-state delivery comparison, and the relationship between delivery speed and review score — one of the strongest findings in the whole analysis.
 
-![Delivery & Logistics](docs/dashboard/Delivery and logistics.png)
+![Delivery & Logistics](docs/dashboard/Delivery and logistics)
 
 *Note: this dashboard was built as a first hands-on Power BI project, prioritizing accurate, verified data over advanced visual polish (custom navigation, full theming). A more refined version is planned as a follow-up project after deeper Power BI study.*
 
