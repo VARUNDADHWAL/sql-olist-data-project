@@ -105,44 +105,50 @@ Delivery time by state, same-state vs. cross-state delivery comparison, and the 
 ## 📂 Repository Structure
 
 ```
-olist-data-warehouse-project/
+sql-olist-data-project/
 │
 ├── datasets/                           # Instructions for downloading 
 │   ├── .gitignore
-│   ├── Readme_dataset.md
+│   └── Readme_dataset.md
 ├── docs/                               # Documentation and diagrams
+│   ├── Analysis_docs/
+│   │   ├── buisness_question.md
+│   │   ├── key_insights_Q&A_report.md
+│   │   └── olist data report Q&A.pdf
 │   ├── bronze/
-        ├──   # Bronze layer ER diagram (no   constraints)
-│   ├── silver_table_structure.png      # Silver layer ER diagram (PK/FK, relationships)
-│   ├── gold_star_schema.png            # Gold layer star schema diagram
-│   ├── bronze_data_schema.md           # Bronze layer table/column documentation
-│   ├── silver_data_schema.md           # Silver layer cleaning decisions & findings
-│   ├── gold_data_schema.md             # Gold layer schema & derived column logic
-│   ├── business_questions.md           # All 44 business questions
-│   ├── key_insights.md                 # Narrative summary of analysis findings
-│   ├── analysis_findings.pdf           # Full answers to all 44 questions
-│
-├── power_bi/                           # Dashboard screenshots (and .pbix file)
-│
+│   │   ├── bronze_data_schema.md
+│   │   └── data_architecture_bronze.png
+│   ├── dashboard/
+│   │   ├── Customers
+│   │   ├── Delivery&logistics
+│   │   ├── Products
+│   │   ├── Sales
+│   │   └── Sellers
+│   ├── gold/ 
+│   │   ├── data_architecture_gold.png
+│   │   └── gold_data_schema.md
+│   ├── silver/
+│   │   ├── data_architecture_silver.png
+│   │   └── silver_data_scheme.md
 ├── scripts/
 │   ├── Analysis/
 │   │   └── Analysis_Q&A_report_script.sql
+│   ├── Gold/
+│   │   ├── ddl_gold.sql
+│   │   ├── load_gold.sql
 │   ├── bronze/
 │   │   ├── ddl_bronze.sql
-│   │   └── proc_load_bronze.sql
+│   │   └── load_bronze.sql
 │   ├── silver/
 │   │   ├── ddl_silver.sql
 │   │   └── load_silver.sql
-│   ├── gold/
-│   │   ├── ddl_gold.sql
-│   │   └── load_gold.sql
-│   └── Analysis/
-│       └── Analysis_Q&A_report_script.sql
+│   │
+│   └── init_database.sql
+│       
 │
 ├── README.md
 └── LICENSE
 ```
-
 ---
 
 ## 📊 Key Business Questions Answered
