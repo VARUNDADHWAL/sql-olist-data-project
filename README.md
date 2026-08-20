@@ -2,7 +2,7 @@
 
 Welcome to my **Olist E-Commerce Data Warehouse & Analytics Project** repository! 🚀
 
-This project demonstrates a complete data warehousing and analytics solution built entirely in SQL (PostgreSQL) — from raw data ingestion to business-ready insights. it follows industry-standard data engineering and analytics practices.
+This project demonstrates a complete data warehousing and analytics solution built entirely in SQL (PostgreSQL) and Power BI — from raw data ingestion to a business-ready analytics dashboard. Built as a portfolio project, it follows the **Medallion Architecture** (Bronze / Silver / Gold) and industry-standard data engineering and analytics practices.
 
 ---
 
@@ -10,11 +10,11 @@ This project demonstrates a complete data warehousing and analytics solution bui
 
 This project follows the **Medallion Architecture** with **Bronze**, **Silver**, and **Gold** layers:
 
-1. **Bronze Layer**: Stores raw data exactly as-is from the source CSV files (Olist's 9 relational datasets), loaded into PostgreSQL with no transformations.
-2. **Silver Layer**: Cleanses, standardizes, and normalizes the bronze data — fixing data types, removing duplicates, handling nulls, and resolving inconsistent values — to prepare it for analysis.
-3. **Gold Layer**: Houses business-ready data modeled into a star schema (fact and dimension tables) optimized for reporting and analytics.
+1. **Bronze Layer**: Stores raw data exactly as-is from the source CSV files (Olist's 9 relational datasets), loaded into PostgreSQL with no transformations, no constraints.
+2. **Silver Layer**: Cleanses, standardizes, and documents data quality decisions — fixing data types, removing invalid values, resolving inconsistent entries — verified through direct exploration of the raw data rather than assumption.
+3. **Gold Layer**: A business-ready **star schema** (one fact table + four dimension tables), enriched with derived columns, and connected by enforced foreign key constraints — built specifically for Power BI consumption.
 
-*(Architecture diagram to be added: `docs/data_architecture.png`)*
+ER diagrams for all three layers are available in `docs/bronze`,`docs/silver`,`docs/gold` showing how the schema evolves from unconstrained raw tables (Bronze) to a fully keyed, relational structure (Silver) to a proper star schema (Gold).
 
 ---
 
@@ -22,17 +22,16 @@ This project follows the **Medallion Architecture** with **Bronze**, **Silver**,
 
 This project involves:
 
-1. **Data Architecture**: Designing a modern data warehouse using the Medallion Architecture .
-2. **Data Ingestion & Cleaning**: Loading Olist's 9 raw relational tables and resolving data quality issues.
-3. **Data Modeling**: Building fact and dimension tables optimized for analytical queries.
-4. **Analytics & Reporting**: Writing SQL-based analysis  and building a Power BI dashboard for actionable business insights.
+1. **Data Architecture**: Designing a modern data warehouse using the Medallion Architecture.
+2. **Data Ingestion & Cleaning**: Loading Olist's 9 raw relational tables and resolving real data quality issues — found and verified through direct SQL exploration, not guesswork.
+3. **Data Modeling**: Building a star schema (fact + dimension tables) optimized for analytical queries, with derived business metrics (delivery timing, late-shipment flags, product size categories) pre-calculated at the warehouse level.
+4. **Analytics & Reporting**: Answering 44 real business questions in SQL, then building a 5-page interactive Power BI dashboard on top of the gold layer.
 
 🎯 This repository is intended to demonstrate practical skills in:
-- SQL Development
-- Data Warehousing
-- Data Cleaning & Transformation
-- Data Modeling 
-- Business Intelligence & Reporting 
+- SQL Development (joins, CTEs, window functions, stored procedures)
+- Data Warehousing & Dimensional Modeling (star schema, surrogate keys, fact/dimension design)
+- Data Cleaning & Transformation (with documented, verified decisions at every step)
+- Business Intelligence & Reporting (Power BI, DAX)
 
 ---
 
@@ -43,7 +42,7 @@ This project involves:
 - **pgAdmin**: GUI for managing and querying the database
 - **Power BI**: Dashboard and visualization layer
 - **Git/GitHub**: Version control and project hosting
-- **draw.io **: For architecture and star schema diagrams
+- **draw.io**: Architecture and ER diagrams
 
 ---
 
@@ -55,26 +54,51 @@ This project involves:
 Develop a modern data warehouse using PostgreSQL to consolidate Olist's e-commerce data, enabling analytical reporting and informed business decision-making.
 
 **Specifications**
-- **Data Source**: Import data from 9 relational CSV files .
-- **Data Quality**: Cleanse and resolve data quality issues (nulls, duplicates, type mismatches, orphaned keys) before analysis.
+- **Data Source**: Import data from 9 relational CSV files (customers, orders, order items, payments, reviews, products, sellers, geolocation, category translations).
+- **Data Quality**: Cleanse and resolve real data quality issues (invalid coordinates, duplicate keys, impossible date sequences, orphaned references) — each one discovered and confirmed through direct SQL exploration before deciding how to handle it.
 - **Integration**: Combine all 9 sources into a single, well-modeled star schema designed for analytical queries.
-- **Scope**: Focus on the dataset as provided; historical change tracking is not required.
-- **Documentation**: Provide clear documentation of the data model for both technical and non-technical readers.
-
----
+- **Documentation**: Every cleaning decision, every derived column, and every schema choice is documented in `docs/`.
 
 ### BI: Analytics & Reporting (Data Analysis)
 
 **Objective**
-Develop SQL-based analytics and a Power BI dashboard to deliver insights into:
-- **Customer Behavior** (repeat purchases, retention, cohorts)
-- **Seller & Product Performance** (top sellers, top categories, review scores)
-- **Sales Trends** (monthly revenue, growth rate, average order value)
-- **Delivery Performance** (delivery delays, regional logistics patterns)
+Answer 44 real business questions across Sales, Customers, Sellers, Products, Delivery, Payments, Reviews, and Geography — then translate the findings into an interactive Power BI dashboard.
 
-These insights are framed as answers to real business questions.
+For the full list of business questions, see [`docs/Analysis_docs/business_questions.md`](docs/Analysis_docs/business_questions.md).
+For the narrative summary of what the data actually shows, see [`docs/Analysis_docs/key_insights_Q&A_report.md`](docs/Analysis_docs/key_insights_Q&A_report.md).
 
-For the full list of business questions, see `docs/business_questions.md`.
+---
+
+## 📊 Power BI Dashboard
+
+A 5-page interactive dashboard built on top of the Gold layer, covering Sales, Customers, Products, Sellers, and Delivery & Logistics. Every KPI and chart was cross-verified against the SQL analysis findings in `docs/Analysis_docs/olist data report Q&A.pdf` before finalizing.
+
+### Sales Overview
+Revenue trend across 2016–2018 (with year-over-year seasonality comparison), day-of-week and weekday/weekend ordering patterns, and top revenue-generating categories.
+
+![Sales Overview](docs/dashboard/Sales.png)
+
+### Customers
+Customer geography (mapped via lat/lng), the one-time vs. repeat customer revenue split, and top cities/states by customer volume and revenue per customer.
+
+![Customers](docs/dashboard/Customers.png)
+
+### Products
+Top categories by revenue and quantity sold, price range analysis, and a revenue-vs-review-score scatter plot that surfaces categories with high revenue but low customer satisfaction.
+
+![Products](docs/dashboard/Products.png)
+
+### Sellers
+Seller concentration by state, top sellers by revenue, and a volume-vs-rating scatter plot identifying high-volume sellers with below-average review scores.
+
+![Sellers](docs/dashboard/Sellers.png)
+
+### Delivery & Logistics
+Delivery time by state, same-state vs. cross-state delivery comparison, and the relationship between delivery speed and review score — one of the strongest findings in the whole analysis.
+
+![Delivery & Logistics](docs/dashboard/Delivery and logistics.png)
+
+*Note: this dashboard was built as a first hands-on Power BI project, prioritizing accurate, verified data over advanced visual polish (custom navigation, full theming). A more refined version is planned as a follow-up project after deeper Power BI study.*
 
 ---
 
@@ -83,27 +107,40 @@ For the full list of business questions, see `docs/business_questions.md`.
 ```
 olist-data-warehouse-project/
 │
-├── datasets/                           # Raw Olist CSV files (9 source tables)
+├── datasets/                           # Instructions for downloading 
+│   ├── .gitignore
+│   ├── Readme_dataset.md
+├── docs/                               # Documentation and diagrams
+│   ├── bronze/
+        ├──   # Bronze layer ER diagram (no   constraints)
+│   ├── silver_table_structure.png      # Silver layer ER diagram (PK/FK, relationships)
+│   ├── gold_star_schema.png            # Gold layer star schema diagram
+│   ├── bronze_data_schema.md           # Bronze layer table/column documentation
+│   ├── silver_data_schema.md           # Silver layer cleaning decisions & findings
+│   ├── gold_data_schema.md             # Gold layer schema & derived column logic
+│   ├── business_questions.md           # All 44 business questions
+│   ├── key_insights.md                 # Narrative summary of analysis findings
+│   ├── analysis_findings.pdf           # Full answers to all 44 questions
 │
-├── docs/                               # Project documentation and architecture details
-│   ├── data_architecture.png           # Medallion architecture diagram
-│   ├── data_model.png                  # Star schema diagram (fact + dimensions)
-│   ├── data_catalog.md                 # Field descriptions for gold layer tables
-│   ├── naming_conventions.md           # Naming rules for tables, columns, schemas
-│   ├── business_questions.md           # Business questions answered by this project
+├── power_bi/                           # Dashboard screenshots (and .pbix file)
 │
-├── scripts/                            # SQL scripts organized by layer
-│   ├── bronze/                         # Raw data ingestion scripts
-│   ├── silver/                         # Cleaning & transformation scripts
-│   ├── gold/                           # Star schema view/table creation scripts
-│   ├── analysis/                       # Business analysis queries (joins, CTEs, window functions)
+├── scripts/
+│   ├── Analysis/
+│   │   └── Analysis_Q&A_report_script.sql
+│   ├── bronze/
+│   │   ├── ddl_bronze.sql
+│   │   └── proc_load_bronze.sql
+│   ├── silver/
+│   │   ├── ddl_silver.sql
+│   │   └── load_silver.sql
+│   ├── gold/
+│   │   ├── ddl_gold.sql
+│   │   └── load_gold.sql
+│   └── Analysis/
+│       └── Analysis_Q&A_report_script.sql
 │
-├── power_bi/                           # Power BI dashboard file (.pbix) and screenshots
-│
-├── tests/                               # Data quality check scripts
-│
-├── README.md                           # Project overview and instructions
-└── LICENSE                             # License information
+├── README.md
+└── LICENSE
 ```
 
 ---
@@ -116,15 +153,15 @@ olist-data-warehouse-project/
 - How does delivery performance vary by state, and does it affect review scores?
 - Which payment methods are most common, and how do they relate to order value?
 
-*(Full list in `docs/business_questions.md`)*
+*(Full list in [`docs/business_questions.md`](docs/business_questions.md))*
 
 ---
 
 ## 🌟 About Me
 
-Hi, I'm **Varun** — a data analysis student building hands-on SQL and Power BI skills through real end-to-end projects, working toward a junior data analyst role. This project reflects independent, from-scratch SQL practice.
+Hi, I'm **Varun** — a data analysis student building hands-on SQL and Power BI skills through real end-to-end projects, working toward a junior data analyst role. This project reflects independent, from-scratch SQL practice (no AI-assisted query writing) as part of a structured job-readiness plan.
 
-Connect with me on [LinkedIn](https://linkedin.com) *(https://www.linkedin.com/in/varundadhwal/)* or check out my other project: [Instacart Market Basket Analysis](https://github.com/VARUNDADHWAL/Instacart_market_analysis).
+Connect with me on [LinkedIn](https://www.linkedin.com/in/varundadhwal/) or check out my other project: [Instacart Market Basket Analysis](https://github.com/VARUNDADHWAL/Instacart_market_analysis).
 
 ---
 
